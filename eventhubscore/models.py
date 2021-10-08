@@ -13,3 +13,10 @@ class DataFrame(AvroModel):
 
     class Meta:
         namespace = "hackathon2021"
+
+#@TODO message to pub back to clients
+
+
+#TODO Message to send secret ZC to clients
+
+
