@@ -5,11 +5,13 @@ from azure.schemaregistry.serializer.avroserializer import SchemaRegistryAvroSer
 from azure.identity import DefaultAzureCredential
 import time
 import models
+
+
 token_credential = DefaultAzureCredential()
-endpoint = "hackathon2021.servicebus.windows.net"
-schema_group = "rfframe"
-eventhub_connection_str = os.environ["CONNECTION_STRING"]
-eventhub_name = "rfinfo"
+endpoint = os.environ['EVENTHUB_HOSTNAME']
+schema_group = os.environ['SCHEMA_REGISTRY_GROUP']
+eventhub_connection_str = os.environ['EVENTHUB_CONNECTION_STRING']
+eventhub_name = os.environ['EVENTHUB_CONSUMER_TOPIC_NAME']
 
 schema_registry_client = SchemaRegistryClient(endpoint, token_credential)
 avro_serializer = SchemaRegistryAvroSerializer(schema_registry_client, schema_group)
@@ -24,13 +26,8 @@ models.start = time.perf_counter()
 def on_event(partition_context, event):
     bytes_payload = b"".join(b for b in event.body)
     deserialized_data = avro_serializer.deserialize(bytes_payload)
-    models.count += 1
-    models.total += len(bytes_payload)
-    if (models.count % 10):
-        val = models.total / (time.perf_counter() - models.start)
-        print("bytest per second %s " % val)
-        models.start = time.perf_counter()
-        models.total = 0
+    print("packet n is %s" % deserialized_data['packet_num'])
+    print("got something")
 
 with eventhub_consumer, avro_serializer:
     eventhub_consumer.receive(on_event=on_event, starting_position="-1")

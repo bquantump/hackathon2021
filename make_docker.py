@@ -1,0 +1,25 @@
+
+import os
+import subprocess
+EVENTHUB_CONSUMER_TOPIC_NAME = os.environ['EVENTHUB_CONSUMER_TOPIC_NAME']
+EVENTHUB_PRODUCER_TOPIC_NAME = os.environ['EVENTHUB_PRODUCER_TOPIC_NAME']
+SCHEMA_REGISTRY_GROUP = os.environ['SCHEMA_REGISTRY_GROUP']
+EVENTHUB_HOSTNAME = os.environ['EVENTHUB_HOSTNAME']
+EVENTHUB_CONNECTION_STRING = os.environ['EVENTHUB_CONNECTION_STRING']
+
+AZURE_CLIENT_ID = os.environ['AZURE_CLIENT_ID']
+AZURE_CLIENT_SECRET = os.environ['AZURE_CLIENT_SECRET']
+AZURE_USER_NAME = os.environ['AZURE_USER_NAME']
+AZURE_TENANT_ID = os.environ['AZURE_TENANT_ID']
+
+command = 'docker build -f aks/docker/Dockerfile --build-arg EVENTHUB_CONSUMER_TOPIC_NAME={} ' \
+          '--build-arg EVENTHUB_PRODUCER_TOPIC_NAME={} --build-arg SCHEMA_REGISTRY_GROUP={} ' \
+          '--build-arg EVENTHUB_HOSTNAME={} --build-arg EVENTHUB_CONNECTION_STRING={} ' \
+          '--build-arg AZURE_CLIENT_ID={} --build-arg AZURE_CLIENT_SECRET={} ' \
+          '--build-arg AZURE_USER_NAME={} --build-arg AZURE_TENANT_ID={} .'.format(
+              EVENTHUB_CONSUMER_TOPIC_NAME, EVENTHUB_PRODUCER_TOPIC_NAME, SCHEMA_REGISTRY_GROUP,
+              EVENTHUB_HOSTNAME, "\"" + EVENTHUB_CONNECTION_STRING + "\"", AZURE_CLIENT_ID, AZURE_CLIENT_SECRET,
+              AZURE_USER_NAME, AZURE_TENANT_ID
+          )
+
+subprocess.check_call(command, shell=True)
