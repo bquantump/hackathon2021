@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: pubtest
+  name: pubtestapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pubtest
+  template:
+    metadata:
+      labels:
+        app: pubtest
+    spec:
+      containers:
+      - image: mshackathon2021.azurecr.io/testconsumer:0.0.2
+        name: pubtest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
