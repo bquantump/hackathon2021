@@ -1,0 +1,6 @@
+azure-eventhub==5.6.0
+azure.schemaregistry==1.0.0b2
+azure-schemaregistry-avroserializer==1.0.0b2
+azure-identity==1.6.0
+dataclasses-avroschema==0.25.1
+

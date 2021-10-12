@@ -1,0 +1,34 @@
+id: eventhub_sink
+label: EventHub Sink
+category: '[EventHubs]'
+
+templates:
+  imports: import eventhubs
+  make: eventhubs.eventhub_sink(${connection_str}, ${endpoint}, ${schema_group}, ${eventhub_name})
+
+parameters:
+- id: connection_str
+  label: Connection String
+  dtype: string
+  default: ''
+- id: endpoint
+  label: Endpoint
+  dtype: string
+  default: '' 
+- id: schema_group
+  label: Schema Group
+  dtype: string
+  default: ''
+- id: eventhub_name
+  label: Event Hub Name
+  dtype: string
+  default: ''    
+
+inputs:
+- label: in
+  domain: stream
+  dtype: complex
+  vlen: 1
+
+
+file_format: 1
