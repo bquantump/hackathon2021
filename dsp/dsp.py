@@ -3,7 +3,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 import commpy
 from scipy import signal
-from signal_constants import *
+
+N_DATA_SYMBOLS = 2
+DUTY_CYCLE = 0.25
+SUBCAR_SPACING = 15e3 #15khz
+SIG_BW = 1.4e6
+FFT_SAMP_RATE = 1.92e6
+TARGET_SAMP_RATE = 30.72e6
+NUM_CHANS = TARGET_SAMP_RATE/FFT_SAMP_RATE
+FFT_SIZE = 128
+OCCUPIED_SUBCARS = 73 # with DC
+GAURD_BAND_SUBCARS =  FFT_SIZE - OCCUPIED_SUBCARS
+L_GAURD = int(GAURD_BAND_SUBCARS/2)
+R_GAURD = GAURD_BAND_SUBCARS - L_GAURD
+OCCUPIED_SUBCARS_ZC = 63 # with DC
+GAURD_BAND_SUBCARS_ZC = FFT_SIZE - OCCUPIED_SUBCARS_ZC
+L_GAURD_ZC = int(GAURD_BAND_SUBCARS_ZC/2)
+R_GAURD_ZC = GAURD_BAND_SUBCARS_ZC - L_GAURD_ZC
+CP_LEN = 9 # samples long
 
 # Implemenet a simplistic OFDM signal with the following
 # layout SYM-ZC-SYM
