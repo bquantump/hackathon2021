@@ -13,12 +13,6 @@ schema_group = os.environ['SCHEMA_REGISTRY_GROUP']
 eventhub_connection_str = os.environ['EVENTHUB_CONNECTION_STRING']
 eventhub_name = os.environ['EVENTHUB_CONSUMER_TOPIC_NAME']
 
-#token_credential = DefaultAzureCredential()
-#endpoint = "hackathon2021.servicebus.windows.net"
-#schema_group = "rfframe"
-#eventhub_connection_str = "Endpoint=sb://hackathon2021.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=9IusLL3aVlo/DCHH/cI9Vkt+IF6PxnT/RByAXfRO6oM="
-#eventhub_name = "rfinfo"
-
 schema_registry_client = SchemaRegistryClient(endpoint, token_credential)
 avro_serializer = SchemaRegistryAvroSerializer(schema_registry_client, schema_group)
 
