@@ -70,7 +70,7 @@ def generate_tx_samples(chan_idx=None,ZC_root=None):
     phase_array = np.array([i*phase_per_samp for i in range(len(extended_full_rate))])
     extended_full_rate = extended_full_rate * np.exp(2.0j*phase_array)
     print("channel randomly chosen as {}".format(chan_idx))
-    print("ZC root: {}".format(root))
+    print("ZC root: {}".format(ZC_root))
     return extended_full_rate
 
 def fshift_and_decimate(samples,chan_idx):
