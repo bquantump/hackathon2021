@@ -9,8 +9,8 @@ from models import DataFrame
 token_credential = DefaultAzureCredential()
 endpoint = "hackathon2021.servicebus.windows.net"
 schema_group = "rfframe"
-eventhub_connection_str = os.environ["CONNECTION_STRING"]
-eventhub_name = "rfinfo"
+eventhub_connection_str = os.environ["EVENTHUB_CONNECTION_STRING"]
+eventhub_name = "rfinfo2"
 schema_content = DataFrame.avro_schema()
 
 
@@ -32,5 +32,4 @@ with eventhub_producer, avro_serializer:
         print(len(payload_bytes))
         event_data_batch.add(EventData(body=payload_bytes))
         eventhub_producer.send_batch(event_data_batch)
-        print("sent ")
         c+=1
