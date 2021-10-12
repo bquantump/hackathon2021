@@ -65,17 +65,36 @@ def generate_tx_samples(chan_idx=None,ZC_root=None):
     if chan_idx is None:
         chan_idx = np.random.randint(NUM_CHANS)
     chan_diff = initial_chan - chan_idx
-    fshift = chan_diff * FFT_SAMP_RATE # since this sample rate also equals channel width
+    fshift = -1.0*chan_diff * FFT_SAMP_RATE # since this sample rate also equals channel width
+    #print("fshift: {}".format(fshift))
     phase_per_samp = (1.0 / TARGET_SAMP_RATE) * 2.0 * np.pi * fshift
     phase_array = np.array([i*phase_per_samp for i in range(len(extended_full_rate))])
-    extended_full_rate = extended_full_rate * np.exp(2.0j*phase_array)
+    '''
+    binsize = (1.0*TARGET_SAMP_RATE)/(1.0*len(extended_full_rate))
+    print(binsize)
+    print('bz')
+    print(binsize*len(extended_full_rate))
+    freqs = [-15.36e6 + x*binsize for x in range(len(phase_array))]
+    print(freqs[:5])
+    print(freqs[-5:])
+    plt.plot(freqs,np.abs(np.fft.fftshift(np.fft.fft(np.exp(1.0j*phase_array)))))
+    plt.show()
+    print("before shift")
+    plt.plot(freqs,np.abs(np.fft.fftshift(np.fft.fft(extended_full_rate))))
+    '''
+    extended_full_rate = extended_full_rate * np.exp(1.0j*phase_array)
+    '''
+    print("after shift")
+    plt.plot(freqs,np.abs(np.fft.fftshift(np.fft.fft(extended_full_rate))))
+    plt.show()
+    '''
     print("channel randomly chosen as {}".format(chan_idx))
     print("ZC root: {}".format(ZC_root))
     return extended_full_rate
 
 def fshift_and_decimate(samples,chan_idx):
     desired_chan = 7.5
-    chan_diff = chan_idx - desired_chan
+    chan_diff = -1.0*chan_idx - desired_chan
     fshift = chan_diff * FFT_SAMP_RATE # since this sample rate also equals channel width
     phase_per_samp = (1.0 / TARGET_SAMP_RATE) * 2.0 * np.pi * fshift
     phase_array = np.array([i*phase_per_samp for i in range(len(samples))])
@@ -98,11 +117,20 @@ def detect_zc(samples, root,threshold):
         plt.show()
 
 if __name__ == '__main__':
-    fsamps = generate_tx_samples()
+    fsamps = generate_tx_samples(0)
+    print('chan 0')
+    #plt.plot(np.abs(np.fft.fftshift(np.fft.fft(fsamps))))
+    #plt.show()
+    #fsamps = generate_tx_samples(8)
+    #print('chan 0')
+    #plt.plot(np.abs(np.fft.fftshift(np.fft.fft(fsamps))))
+    #plt.show()
+    '''
     for chan in range(16):
         print('chan: {}'.format(chan))
         samps = fshift_and_decimate(fsamps,chan)
         for zc in [25,29,34]:
             detect_zc(samps, zc,0.35)
+    '''
     #print(np.abs(cor[:10]))
     
