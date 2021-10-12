@@ -27,7 +27,6 @@ def on_event(partition_context, event):
     bytes_payload = b"".join(b for b in event.body)
     deserialized_data = avro_serializer.deserialize(bytes_payload)
     print("packet n is %s" % deserialized_data['packet_num'])
-    print("got something")
 
 with eventhub_consumer, avro_serializer:
     eventhub_consumer.receive(on_event=on_event, starting_position="-1")
