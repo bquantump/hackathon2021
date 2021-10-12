@@ -16,8 +16,9 @@ def generate_tx_samples():
     constellation_points = (1.0 - 2*data_pointsI) + 1.0j * (1.0 - 2*data_pointsQ)
 
     #ZC generation
-    cyc_shift = np.random.randint(62) + 1
-    zc = commpy.sequences.zcsequence(29,63,cyc_shift)
+    root = np.choose([1],[25,29,34])
+    root = 29 #temporary override
+    zc = commpy.sequences.zcsequence(root,63)
 
     # packing
     f_domain_symbs = []
@@ -51,10 +52,39 @@ def generate_tx_samples():
     phase_array = np.array([i*phase_per_samp for i in range(len(extended_full_rate))])
     extended_full_rate = extended_full_rate * np.exp(2.0j*phase_array)
     print("channel randomly chosen as {}".format(chan_idx))
-    print("ZC cyc shift: {}".format(cyc_shift))
-    #plt.plot(np.abs(extended_full_rate))
-    #plt.show()
-    #plt.plot(np.abs(np.fft.fft(extended_full_rate)))
-    #plt.show()
+    print("ZC root: {}".format(root))
+    return extended_full_rate
+
+def fshift_and_decimate(samples,chan_idx):
+    desired_chan = 7.5
+    chan_diff = chan_idx - desired_chan
+    fshift = chan_diff * FFT_SAMP_RATE # since this sample rate also equals channel width
+    phase_per_samp = (1.0 / TARGET_SAMP_RATE) * 2.0 * np.pi * fshift
+    phase_array = np.array([i*phase_per_samp for i in range(len(samples))])
+    r = samples * np.exp(2.0j*phase_array)
+    return signal.resample(r,int(len(r)/16))
+
+
+def detect_zc(samples, root,threshold):
+    zc = commpy.sequences.zcsequence(root,63)
+    padded = np.concatenate((np.zeros(L_GAURD_ZC),zc,np.zeros(R_GAURD_ZC)))
+    shifted = np.fft.ifftshift(padded)
+    zc_sig = np.fft.ifft(shifted)
+
+    cor = np.abs(signal.correlate(samples,zc_sig))
+    
+    max_idx = np.argmax(cor)
+    if cor[max_idx] > threshold:
+        print("peak detected at idx {} for zc {}, score {}".format(max_idx,root,cor[max_idx]))
+        plt.plot(cor)
+        plt.show()
+
 if __name__ == '__main__':
-    generate_tx_samples()
+    fsamps = generate_tx_samples()
+    for chan in range(16):
+        print('chan: {}'.format(chan))
+        samps = fshift_and_decimate(fsamps,chan)
+        for zc in [25,29,34]:
+            detect_zc(samps, zc,0.35)
+    #print(np.abs(cor[:10]))
+    
