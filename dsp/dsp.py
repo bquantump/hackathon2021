@@ -8,7 +8,7 @@ from signal_constants import *
 # Implemenet a simplistic OFDM signal with the following
 # layout SYM-ZC-SYM
 
-def generate_tx_samples():
+def generate_tx_samples(chan_idx=None,ZC_root=None):
     
     #data I-Q generation
     data_pointsI = np.random.randint(2,size=OCCUPIED_SUBCARS*N_DATA_SYMBOLS)
@@ -16,9 +16,9 @@ def generate_tx_samples():
     constellation_points = (1.0 - 2*data_pointsI) + 1.0j * (1.0 - 2*data_pointsQ)
 
     #ZC generation
-    root = np.choose([1],[25,29,34])
-    root = 29 #temporary override
-    zc = commpy.sequences.zcsequence(root,63)
+    if ZC_root is None:
+        ZC_root = np.choose([1],[25,29,34])
+    zc = commpy.sequences.zcsequence(ZC_root,63)
 
     # packing
     f_domain_symbs = []
@@ -45,7 +45,8 @@ def generate_tx_samples():
     # upsample & rotate to channel
     extended_full_rate = signal.resample(extended,16*len(extended))
     initial_chan = 7.5
-    chan_idx = np.random.randint(NUM_CHANS)
+    if chan_idx is None:
+        chan_idx = np.random.randint(NUM_CHANS)
     chan_diff = initial_chan - chan_idx
     fshift = chan_diff * FFT_SAMP_RATE # since this sample rate also equals channel width
     phase_per_samp = (1.0 / TARGET_SAMP_RATE) * 2.0 * np.pi * fshift
