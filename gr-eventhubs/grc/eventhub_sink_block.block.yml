@@ -1,6 +1,7 @@
 id: eventhub_sink
 label: EventHub Sink
 category: '[EventHubs]'
+flags: [ show_id, python ]
 
 templates:
   imports: import eventhubs
