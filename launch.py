@@ -29,7 +29,7 @@ import os
 
 def run(config):
     consumer_group, zc, channel = config
-    print("got config is %s" % config)
+    print("got config is " + str(config))
     main(top_block_cls=testgrc, options=None, consumer_group=consumer_group, zc=zc, channel=channel)
 
 class testgrc(gr.top_block):
