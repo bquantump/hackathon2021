@@ -20,4 +20,5 @@ except ModuleNotFoundError:
     pass
 
 # import any pure python here
+from .zc_detector import zc_detector
 #

@@ -25,6 +25,13 @@ CP_LEN = 9 # samples long
 # Implemenet a simplistic OFDM signal with the following
 # layout SYM-ZC-SYM
 
+def gen_ZC(root):
+    zc = commpy.sequences.zcsequence(root,63)
+    padded = np.concatenate((np.zeros(L_GAURD_ZC),zc,np.zeros(R_GAURD_ZC)))
+    shifted = np.fft.ifftshift(padded)
+    zc_sig = np.fft.ifft(shifted)
+    return zc_sig
+
 def generate_tx_samples(chan_idx=None,ZC_root=None):
     
     #data I-Q generation
@@ -102,12 +109,9 @@ def fshift_and_decimate(samples,chan_idx):
     return signal.resample(r,int(len(r)/16))
 
 
-def detect_zc(samples, root,threshold):
-    zc = commpy.sequences.zcsequence(root,63)
-    padded = np.concatenate((np.zeros(L_GAURD_ZC),zc,np.zeros(R_GAURD_ZC)))
-    shifted = np.fft.ifftshift(padded)
-    zc_sig = np.fft.ifft(shifted)
 
+def detect_zc(samples, root,threshold):
+    zc_sig = gen_ZC(root)
     cor = np.abs(signal.correlate(samples,zc_sig))
     
     max_idx = np.argmax(cor)
