@@ -18,7 +18,7 @@ schema_content = models.EventHubDataFrame.avro_schema()
 class eventhub_source(gr.sync_block):
 
     def __init__(self,connection_str: str = None,
-                 endpoint: str = None, schema_group: str = None, eventhub_name: str = None, consumer_group: str = None):
+                 endpoint: str = None, schema_group: str = None, eventhub_name: str = None, consumer_group: str = None, starting_position = None):
 
         gr.sync_block.__init__(self,
                         name="eventhub_source",
@@ -31,6 +31,7 @@ class eventhub_source(gr.sync_block):
         self.eventhub_connection_str = connection_str
         self.eventhub_name = eventhub_name
         self.consumer_group = consumer_group
+        self.starting_position = starting_position
 
         self.schema_registry_client = SchemaRegistryClient(self.endpoint, self.token_credential)
         self.avro_serializer = SchemaRegistryAvroSerializer(self.schema_registry_client, self.schema_group)
@@ -45,7 +46,7 @@ class eventhub_source(gr.sync_block):
         self.rxthread.start()
 
     def receive(self):
-        self.eventhub_consumer.receive(on_event=self.on_event, starting_position="-1")
+        self.eventhub_consumer.receive(on_event=self.on_event, starting_position=self.starting_position)
 
 
     def on_event(self, partition_context, event):

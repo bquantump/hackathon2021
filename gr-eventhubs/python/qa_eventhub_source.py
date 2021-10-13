@@ -24,7 +24,8 @@ class qa_eventhub_source(gr_unittest.TestCase):
                                 endpoint=endpoint,
                                 schema_group=schema_group,
                                 eventhub_name=eventhub_name,
-                                consumer_group='$Default')
+                                consumer_group='$Default',
+                                starting_position='@latest')
 
         # really only checking that the init didn't throw an exception above, but adding the check
         # below to keep flake8 happy

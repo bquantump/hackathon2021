@@ -5,7 +5,7 @@ flags: [ show_id, python ]
 
 templates:
   imports: import eventhubs
-  make: eventhubs.eventhub_source(${connection_str}, ${endpoint}, ${schema_group}, ${eventhub_name}, ${consumer_group})
+  make: eventhubs.eventhub_source(${connection_str}, ${endpoint}, ${schema_group}, ${eventhub_name}, ${consumer_group}, ${starting_position})
 
 parameters:
 - id: connection_str
@@ -27,7 +27,11 @@ parameters:
 - id: consumer_group
   label: Consumer Group
   dtype: string
-  default: '' 
+  default: ''
+- id: starting_position
+  label: Starting Position
+  dtype: raw
+  default: '-1'
 
 outputs:
 - label: out
