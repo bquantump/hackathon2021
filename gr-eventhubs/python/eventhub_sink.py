@@ -62,7 +62,7 @@ class eventhub_sink(gr.sync_block):
             self.pack_count += 1
 
 
-        return len(samps_to_fill)
+        return samps_to_fill
 
     def stop(self):
         self.eventhub_producer.close()
