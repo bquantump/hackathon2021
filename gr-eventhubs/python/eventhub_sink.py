@@ -10,7 +10,7 @@ from azure.schemaregistry import SchemaRegistryClient
 from azure.schemaregistry.serializer.avroserializer import SchemaRegistryAvroSerializer
 from azure.identity import DefaultAzureCredential
 from eventhubs import models
-import time
+import math
 
 schema_content = models.EventHubDataFrame.avro_schema()
 
@@ -42,9 +42,9 @@ class eventhub_sink(gr.sync_block):
         samples = input_items[0]
 
         # get size of input and chunk it into block size parts
-        number_of_blocks = round(len(samples)*gr.sizeof_gr_complex/self.block_len)
+        number_of_blocks = math.ceil(len(samples)*gr.sizeof_gr_complex/self.block_len)
         number_of_samples_per_block = int(self.block_len/gr.sizeof_gr_complex)
-        print('inputlen: %s numsamples: %s numblocks: %s samplesperblock: %s'%(len(input_items),len(samples),number_of_blocks,number_of_samples_per_block))
+        #print('inputlen: %s numsamples: %s numblocks: %s samplesperblock: %s'%(len(input_items),len(samples),number_of_blocks,number_of_samples_per_block))
         data = np.array(samples,dtype=complex)
 
         for idx in range(0,number_of_blocks):

@@ -10,7 +10,7 @@ from azure.schemaregistry import SchemaRegistryClient
 from azure.schemaregistry.serializer.avroserializer import SchemaRegistryAvroSerializer
 from azure.identity import DefaultAzureCredential
 from eventhubs import models
-import queue
+from collections import deque
 import threading
 
 schema_content = models.EventHubDataFrame.avro_schema()
@@ -40,9 +40,7 @@ class eventhub_source(gr.sync_block):
             consumer_group=self.consumer_group,
             eventhub_name=self.eventhub_name)
 
-        self.q = queue.Queue()
-        self.total_num_samples = 0
-        self.lock = threading.Lock()
+        self.dq = deque()
         self.rxthread = threading.Thread(target=self.receive)
         self.rxthread.start()
 
@@ -53,15 +51,12 @@ class eventhub_source(gr.sync_block):
     def on_event(self, partition_context, event):
         bytes_payload = b"".join(b for b in event.body)
         deserialized_data = self.avro_serializer.deserialize(bytes_payload)
-        print("packet n is %s" % deserialized_data['pkt_num'])
+        #print("packet n is %s" % deserialized_data['pkt_num'])
         if deserialized_data['imag'] != None and deserialized_data['real'] != None:
             samples = np.empty(len(deserialized_data['imag']), dtype=np.complex64)
             samples.real = deserialized_data['real']
             samples.imag = deserialized_data['imag']
-            self.q.put(samples)
-            self.lock.acquire()
-            self.total_num_samples = self.total_num_samples + len(samples)
-            self.lock.release()
+            self.dq.extend(samples)
 
 
     def work(self, input_items, output_items):
@@ -69,16 +64,12 @@ class eventhub_source(gr.sync_block):
         noutput_items = len(out)
         nitems_produced = 0
 
-        nitems_produced = min(self.total_num_samples, noutput_items)
+        num_out = min(len(self.dq), noutput_items)
 
-        while not self.q.empty():
-            print('total samples: %s noutput_items: %s out: %s'%(self.total_num_samples,noutput_items,out))
-            samples = self.q.get()
-            out[:nitems_produced] = samples
-            nitems_produced = nitems_produced + len(samples)
-            self.lock.acquire()
-            self.total_num_samples = self.total_num_samples - len(samples)
-            self.lock.release()
+        while self.dq and nitems_produced < num_out:
+            #print('total samples: %s noutput_items: %s'%(num_out,noutput_items))
+            out[nitems_produced] = self.dq.pop()
+            nitems_produced = nitems_produced + 1
 
         return nitems_produced
 
