@@ -32,3 +32,6 @@ def run_server(consumer_group):
 
     with eventhub_consumer, avro_serializer:
         eventhub_consumer.receive(on_event=on_event, starting_position="-1")
+
+if __name__ == '__main__':
+    run_server(None)
