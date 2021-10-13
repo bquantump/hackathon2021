@@ -69,7 +69,7 @@ class eventhub_source(gr.sync_block):
 
         while self.dq and nitems_produced < num_out:
             #print('total samples: %s noutput_items: %s'%(num_out,noutput_items))
-            out[nitems_produced] = self.dq.pop()
+            out[nitems_produced] = self.dq.popleft()
             nitems_produced = nitems_produced + 1
 
         return nitems_produced
