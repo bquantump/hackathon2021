@@ -37,7 +37,7 @@ class eventhub_sink(gr.sync_block):
         self.eventhub_producer = EventHubProducerClient.from_connection_string(
             conn_str=self.eventhub_connection_str,
             eventhub_name=self.eventhub_name)
-        self.data = np.array(block_len, dtype=complex)
+        self.data = np.full((block_len,), complex(0,0)
         self.idx = 0
         self.pack_count = 0
         
