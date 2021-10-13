@@ -61,5 +61,8 @@ class eventhub_sink(gr.sync_block):
 
         return len(samples)
 
+    def stop(self):
+        self.eventhub_producer.close()
 
+        return True
 

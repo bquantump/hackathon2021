@@ -22,3 +22,4 @@ except ModuleNotFoundError:
 # import any pure python here
 #
 from .eventhub_sink import eventhub_sink
+from .eventhub_source import eventhub_source
