@@ -4,7 +4,7 @@ category: '[Event Hubs]'
 
 templates:
   imports: import eventhubs
-  make: eventhubs.zc_detector()
+  make: eventhubs.zc_detector(${zc_root},${chan_idx},${threshold})
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
@@ -20,6 +20,10 @@ parameters:
   label: Channel Index
   dtype: int
   default: 0
+- id: threshold
+  label: Threshold
+  dtype: float
+  default: 0.35
   
 inputs:
 - label: in
