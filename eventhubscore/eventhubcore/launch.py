@@ -1,5 +1,5 @@
 from multiprocessing import Pool, TimeoutError
-from eventhubscore import run_server
+from eventhubcore import run_server
 
 
 if __name__ == '__main__':
