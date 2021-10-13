@@ -37,29 +37,32 @@ class eventhub_sink(gr.sync_block):
         self.eventhub_producer = EventHubProducerClient.from_connection_string(
             conn_str=self.eventhub_connection_str,
             eventhub_name=self.eventhub_name)
-
+        self.data = np.full((block_len,), complex(0,0))
+        self.idx = 0
+        self.pack_count = 0
+        
     def work(self, input_items, output_items):
         samples = input_items[0]
 
-        # get size of input and chunk it into block size parts
-        number_of_blocks = math.ceil(len(samples)*gr.sizeof_gr_complex/self.block_len)
-        number_of_samples_per_block = int(self.block_len/gr.sizeof_gr_complex)
-        #print('inputlen: %s numsamples: %s numblocks: %s samplesperblock: %s'%(len(input_items),len(samples),number_of_blocks,number_of_samples_per_block))
-        data = np.array(samples,dtype=complex)
-
-        for idx in range(0,number_of_blocks):
-            msg = models.EventHubDataFrame(list(data[idx*number_of_samples_per_block:idx*number_of_samples_per_block+number_of_samples_per_block].real),\
-                    list(data[idx*number_of_samples_per_block:idx*number_of_samples_per_block+number_of_samples_per_block].imag),\
-                    idx,\
-                    number_of_blocks,\
+        samps_to_fill = min(len(samples), len(self.data) - self.idx)
+        self.data[self.idx:self.idx + samps_to_fill] = samples[0:samps_to_fill]
+        self.idx += samps_to_fill
+        if self.idx >= len(self.data):
+            msg = models.EventHubDataFrame(list(self.data.real),\
+                    list(self.data.imag),\
+                    self.pack_count,\
+                    1,\
                     "eventhub_sink")
             event_data_batch = self.eventhub_producer.create_batch()
             payload_bytes = self.avro_serializer.serialize(data=msg.asdict(), schema=schema_content)
             #print(len(payload_bytes))
             event_data_batch.add(EventData(body=payload_bytes))
             self.eventhub_producer.send_batch(event_data_batch)
+            self.idx = 0
+            self.pack_count += 1
 
-        return len(samples)
+
+        return samps_to_fill
 
     def stop(self):
         self.eventhub_producer.close()

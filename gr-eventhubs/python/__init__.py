@@ -25,3 +25,4 @@ from .zc_detector import zc_detector
 from .eventhub_sink import eventhub_sink
 from .eventhub_source import eventhub_source
 from .eventhub_detect_sink import eventhub_detect_sink
+from .eventhub_detect_source import eventhub_detect_source
