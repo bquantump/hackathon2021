@@ -7,5 +7,5 @@
 #
 
 install(FILES
-    DESTINATION share/gnuradio/grc/blocks
+    eventhubs_zc_detector.block.yml DESTINATION share/gnuradio/grc/blocks
 )
