@@ -15,7 +15,7 @@ parameters:
 - id: zc_root
   label: zc_root
   dtype: int
-  value: 25
+  default: 25
 - id: chan_idx
   label: Channel Index
   dtype: int
