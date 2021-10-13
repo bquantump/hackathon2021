@@ -27,13 +27,7 @@ parameters:
 
 inputs:
 -   domain: message
-    id: print
-    optional: true
--   domain: message
-    id: store
-    optional: true
--   domain: message
-    id: print_pdu
+    id: in
     optional: true
 
 
