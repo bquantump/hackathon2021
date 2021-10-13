@@ -134,7 +134,6 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    threshold: '0.35'
     zc_root: '25'
   states:
     bus_sink: false
@@ -154,7 +153,7 @@ blocks:
     minoutbuf: '0'
     nthreads: '1'
     samp_delay: '0'
-    taps: np.conjugate(dsp.gen_ZC(25))[::-1]
+    taps: np.conjugate(dspcore.gen_ZC(25))[::-1]
     type: ccc
   states:
     bus_sink: false
@@ -168,7 +167,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    center_freq: (dsp.FFT_SAMP_RATE) * -7.5
+    center_freq: (dspcore.FFT_SAMP_RATE) * -7.5
     comment: ''
     decim: '16'
     maxoutbuf: '0'
@@ -189,12 +188,12 @@ blocks:
   parameters:
     alias: ''
     comment: ''
-    imports: import dsp
+    imports: import dspcore
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [384, 172.0]
+    coordinate: [336, 164.0]
     rotation: 0
     state: true
 - name: import_1
