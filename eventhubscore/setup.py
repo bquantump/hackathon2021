@@ -17,6 +17,6 @@ setup(
         'azure-identity',
         'dataclasses-avroschema'
     ],
-    packages=['eventhubcore'],
+    packages=['eventhubscore'],
     include_package_data=True
 )
