@@ -21,7 +21,7 @@ eventhub_producer = EventHubProducerClient.from_connection_string(
     conn_str=eventhub_connection_str,
     eventhub_name=eventhub_name
 )
-data = [1,0] * (100000 //10)
+data = [1,0] * 100000
 mock_msg = DataFrame( data, 0,0,"steves pc!")
 with eventhub_producer, avro_serializer:
     c = 0
