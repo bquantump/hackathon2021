@@ -21,6 +21,7 @@ GAURD_BAND_SUBCARS_ZC = FFT_SIZE - OCCUPIED_SUBCARS_ZC
 L_GAURD_ZC = int(GAURD_BAND_SUBCARS_ZC/2)
 R_GAURD_ZC = GAURD_BAND_SUBCARS_ZC - L_GAURD_ZC
 CP_LEN = 9 # samples long
+ZC_ROOTS = [25,29,34]
 
 # Implemenet a simplistic OFDM signal with the following
 # layout SYM-ZC-SYM
