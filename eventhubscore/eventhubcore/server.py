@@ -8,6 +8,7 @@ from eventhubcore import models
 
 
 def run_server(consumer_group):
+    consumer_group = consumer_group or '$Default'
     token_credential = DefaultAzureCredential()
     endpoint = os.environ['EVENTHUB_HOSTNAME']
     schema_group = os.environ['SCHEMA_REGISTRY_GROUP']
