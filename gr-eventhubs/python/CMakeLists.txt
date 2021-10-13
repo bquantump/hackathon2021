@@ -25,6 +25,7 @@ GR_PYTHON_INSTALL(
     eventhub_sink.py
     eventhub_source.py
     models.py
+    zc_detector.py
     DESTINATION ${GR_PYTHON_DIR}/eventhubs
 )
 
