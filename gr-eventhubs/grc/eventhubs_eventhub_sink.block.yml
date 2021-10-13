@@ -1,11 +1,11 @@
 id: eventhub_sink
 label: EventHub Sink
-category: '[EventHubs]'
+category: '[Event Hubs]'
 flags: [ show_id, python ]
 
 templates:
   imports: import eventhubs
-  make: eventhubs.eventhub_sink(${connection_str}, ${endpoint}, ${schema_group}, ${eventhub_name})
+  make: eventhubs.eventhub_sink(${connection_str}, ${endpoint}, ${schema_group}, ${eventhub_name}, ${block_len})
 
 parameters:
 - id: connection_str
@@ -23,7 +23,11 @@ parameters:
 - id: eventhub_name
   label: Event Hub Name
   dtype: string
-  default: ''    
+  default: '' 
+- id: block_len
+  label: Block Length
+  dtype: int
+  default: 512
 
 inputs:
 - label: in

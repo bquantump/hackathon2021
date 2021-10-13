@@ -4,7 +4,6 @@ from azure.schemaregistry import SchemaRegistryClient
 from azure.schemaregistry.serializer.avroserializer import SchemaRegistryAvroSerializer
 from azure.identity import DefaultAzureCredential
 import time
-import models
 
 
 token_credential = DefaultAzureCredential()
@@ -21,12 +20,11 @@ eventhub_consumer = EventHubConsumerClient.from_connection_string(
     consumer_group='$Default',
     eventhub_name=eventhub_name,
 )
-models.start = time.perf_counter()
 
 def on_event(partition_context, event):
     bytes_payload = b"".join(b for b in event.body)
     deserialized_data = avro_serializer.deserialize(bytes_payload)
-    print("packet n is %s" % deserialized_data['packet_num'])
+    print("packet n is %s" % deserialized_data['pkt_num'])
     print("got something")
 
 with eventhub_consumer, avro_serializer:

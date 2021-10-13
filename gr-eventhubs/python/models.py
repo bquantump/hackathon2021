@@ -1,6 +1,8 @@
 import typing
 from dataclasses_avroschema import AvroModel
 from dataclasses import dataclass
+import numpy as np
+
 count = 0
 total = 0
 start = None
@@ -14,9 +16,13 @@ class DataFrame(AvroModel):
     class Meta:
         namespace = "hackathon2021"
 
-#@TODO message to pub back to clients
+@dataclass
+class EventHubDataFrame(AvroModel):
+    real: typing.List[float]
+    imag: typing.List[float]
+    pkt_num: int
+    total_pkt: int
+    source: str
 
-
-#TODO Message to send secret ZC to clients
-
-
+    class Meta:
+        namespace = "hackathon2021"

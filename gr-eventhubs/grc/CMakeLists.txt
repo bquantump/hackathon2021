@@ -7,6 +7,6 @@
 #
 
 install(FILES
-    eventhub_sink_block.block.yml
+    eventhubs_eventhub_sink.block.yml
     DESTINATION share/gnuradio/grc/blocks
 )
