@@ -5,7 +5,7 @@ import numpy as np
 import os
 import pmt
 
-class qa_eventhub_sink(gr_unittest.TestCase):
+class qa_eventhub_detect_sink(gr_unittest.TestCase):
 
     def setUp(self):
         self.tb = gr.top_block()
@@ -37,4 +37,4 @@ class qa_eventhub_sink(gr_unittest.TestCase):
 
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_blob_sink)
+    gr_unittest.run(qa_eventhub_detect_sink)
