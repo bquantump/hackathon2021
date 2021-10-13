@@ -7,7 +7,7 @@ import time
 from eventhubcore import models
 
 
-def run_server(test):
+def run_server(consumer_group):
     token_credential = DefaultAzureCredential()
     endpoint = os.environ['EVENTHUB_HOSTNAME']
     schema_group = os.environ['SCHEMA_REGISTRY_GROUP']
@@ -19,7 +19,7 @@ def run_server(test):
 
     eventhub_consumer = EventHubConsumerClient.from_connection_string(
         conn_str=eventhub_connection_str,
-        consumer_group='$Default',
+        consumer_group=consumer_group,
         eventhub_name=eventhub_name,
     )
     models.start = time.perf_counter()
