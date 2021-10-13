@@ -26,3 +26,14 @@ class EventHubDataFrame(AvroModel):
 
     class Meta:
         namespace = "hackathon2021"
+
+@dataclass
+class EventHubDetectFrame(AvroModel):
+    zc_root: int
+    channel_idx: int
+    timestap: int
+    score: float
+    source: str
+
+    class Meta:
+        namespace = "hackathon2021"

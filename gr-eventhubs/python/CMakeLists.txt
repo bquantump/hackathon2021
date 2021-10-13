@@ -24,6 +24,7 @@ GR_PYTHON_INSTALL(
     __init__.py
     eventhub_sink.py
     eventhub_source.py
+    eventhub_detect_sink.py
     models.py
     zc_detector.py
     DESTINATION ${GR_PYTHON_DIR}/eventhubs
@@ -37,3 +38,4 @@ include(GrTest)
 set(GR_TEST_TARGET_DEPS gnuradio-eventhubs)
 GR_ADD_TEST(qa_eventhub_sink ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_eventhub_sink.py)
 GR_ADD_TEST(qa_eventhub_source ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_eventhub_source.py)
+GR_ADD_TEST(qa_eventhub_sink ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_eventhub_detect_sink.py)

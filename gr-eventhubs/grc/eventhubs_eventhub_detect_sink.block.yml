@@ -1,0 +1,40 @@
+id: eventhub_detect_sink
+label: EventHub Detect Sink
+category: '[Event Hubs]'
+flags: [ show_id, python ]
+
+templates:
+  imports: import eventhubs
+  make: eventhubs.eventhub_detect_sink(${connection_str}, ${endpoint}, ${schema_group}, ${eventhub_name})
+
+parameters:
+- id: connection_str
+  label: Connection String
+  dtype: string
+  default: ''
+- id: endpoint
+  label: Endpoint
+  dtype: string
+  default: '' 
+- id: schema_group
+  label: Schema Group
+  dtype: string
+  default: ''
+- id: eventhub_name
+  label: Event Hub Name
+  dtype: string
+  default: '' 
+
+inputs:
+-   domain: message
+    id: print
+    optional: true
+-   domain: message
+    id: store
+    optional: true
+-   domain: message
+    id: print_pdu
+    optional: true
+
+
+file_format: 1
