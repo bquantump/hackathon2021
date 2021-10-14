@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import commpy
 from scipy import signal
-
+import random
 N_DATA_SYMBOLS = 2
 DUTY_CYCLE = 0.25
 SUBCAR_SPACING = 15e3 #15khz
@@ -42,7 +42,8 @@ def generate_tx_samples(chan_idx=None,ZC_root=None):
 
     #ZC generation
     if ZC_root is None:
-        ZC_root = np.choose([1],[25,29,34])
+        idx = random.randint(0, 2)
+        ZC_root = ZC_ROOTS[idx]
     zc = commpy.sequences.zcsequence(ZC_root,63)
 
     # packing

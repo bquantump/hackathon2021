@@ -4,7 +4,7 @@ category: '[Event Hubs]'
 
 templates:
   imports: import eventhubs
-  make: eventhubs.ofdm_demod(${threshold},${correlator})
+  make: eventhubs.ofdm_demod(${threshold})
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
