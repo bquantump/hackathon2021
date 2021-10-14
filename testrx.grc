@@ -176,7 +176,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     schema_group: os.environ['SCHEMA_REGISTRY_GROUP']
-    starting_position: '"-1"'
+    starting_position: '"@latest"'
   states:
     bus_sink: false
     bus_source: false
