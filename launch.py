@@ -27,6 +27,7 @@ import eventhubs
 import numpy as np
 import os
 import sys
+import time
 
 def run(config):
     consumer_group, zc, channel = config
@@ -121,9 +122,6 @@ def main(top_block_cls=testgrc, options=None, consumer_group="$Default", zc=0, c
     signal.signal(signal.SIGTERM, sig_handler)
 
     tb.start()
-    while True:
-        pass
-    tb.stop()
     tb.wait()
 
 
