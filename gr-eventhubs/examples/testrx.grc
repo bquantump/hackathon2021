@@ -1,0 +1,357 @@
+options:
+  parameters:
+    author: ''
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: testrx
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Not titled yet
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: ZC_ROOT
+  id: variable
+  parameters:
+    comment: ''
+    value: '25'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [400, 12.0]
+    rotation: 0
+    state: true
+- name: chan_num
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [296, 12.0]
+    rotation: 0
+    state: true
+- name: freq_offset
+  id: variable
+  parameters:
+    comment: ''
+    value: (dspcore.FFT_SAMP_RATE) * (-7.5 + chan_num)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [504, 12.0]
+    rotation: 0
+    state: true
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: 30.72e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [192, 12.0]
+    rotation: 0
+    state: enabled
+- name: variable_low_pass_filter_taps_0
+  id: variable_low_pass_filter_taps
+  parameters:
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: 1.9e6/2
+    gain: '1.0'
+    samp_rate: samp_rate
+    width: 250e3
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1200, 36.0]
+    rotation: 0
+    state: true
+- name: blocks_message_debug_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [800, 664.0]
+    rotation: 0
+    state: enabled
+- name: blocks_message_debug_0_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1160, 496.0]
+    rotation: 0
+    state: disabled
+- name: eventhub_detect_sink_0
+  id: eventhub_detect_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    connection_str: os.environ["EVENTHUB_CONNECTION_STRING"]
+    endpoint: os.environ['EVENTHUB_HOSTNAME']
+    eventhub_name: os.environ['EVENTHUB_DETECT_CONSUMER_TOPIC_NAME']
+    schema_group: os.environ['SCHEMA_REGISTRY_GROUP']
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1120, 364.0]
+    rotation: 0
+    state: true
+- name: eventhub_detect_source_0
+  id: eventhub_detect_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    connection_str: os.environ["EVENTHUB_CONNECTION_STRING"]
+    consumer_group: '"$Default"'
+    endpoint: os.environ['EVENTHUB_HOSTNAME']
+    eventhub_name: os.environ['EVENTHUB_DETECT_CONSUMER_TOPIC_NAME']
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    schema_group: os.environ['SCHEMA_REGISTRY_GROUP']
+    starting_position: '"@latest"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [432, 612.0]
+    rotation: 0
+    state: enabled
+- name: eventhub_source_0
+  id: eventhub_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    connection_str: os.environ["EVENTHUB_CONNECTION_STRING"]
+    consumer_group: '"$Default"'
+    endpoint: os.environ['EVENTHUB_HOSTNAME']
+    eventhub_name: os.environ['EVENTHUB_RF_CONSUMER_TOPIC_NAME']
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    schema_group: os.environ['SCHEMA_REGISTRY_GROUP']
+    starting_position: '"@latest"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [104, 348.0]
+    rotation: 0
+    state: true
+- name: eventhubs_zc_detector_0
+  id: eventhubs_zc_detector
+  parameters:
+    affinity: ''
+    alias: ''
+    chan_idx: chan_num
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    threshold: '0'
+    zc_root: ZC_ROOT
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [880, 380.0]
+    rotation: 0
+    state: true
+- name: fft_filter_xxx_0
+  id: fft_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nthreads: '1'
+    samp_delay: '0'
+    taps: np.conjugate(dspcore.gen_ZC(25))[::-1]
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [656, 380.0]
+    rotation: 0
+    state: true
+- name: freq_xlating_fft_filter_ccc_0
+  id: freq_xlating_fft_filter_ccc
+  parameters:
+    affinity: ''
+    alias: ''
+    center_freq: freq_offset
+    comment: ''
+    decim: '16'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nthreads: '1'
+    samp_delay: '0'
+    samp_rate: samp_rate
+    taps: variable_low_pass_filter_taps_0
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [384, 364.0]
+    rotation: 0
+    state: true
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import os
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [32, 116.0]
+    rotation: 0
+    state: true
+- name: import_0_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import dspcore
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [128, 116.0]
+    rotation: 0
+    state: true
+- name: import_1
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import numpy as np
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [248, 116.0]
+    rotation: 0
+    state: true
+- name: qtgui_waterfall_sink_x_0
+  id: qtgui_waterfall_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    axislabels: 'True'
+    bw: samp_rate
+    color1: '0'
+    color10: '0'
+    color2: '0'
+    color3: '0'
+    color4: '0'
+    color5: '0'
+    color6: '0'
+    color7: '0'
+    color8: '0'
+    color9: '0'
+    comment: ''
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: ''
+    int_max: '10'
+    int_min: '-140'
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    nconnections: '1'
+    showports: 'False'
+    type: complex
+    update_time: '0.10'
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [384, 252.0]
+    rotation: 0
+    state: true
+
+connections:
+- [eventhub_detect_source_0, out, blocks_message_debug_0, print]
+- [eventhub_source_0, '0', freq_xlating_fft_filter_ccc_0, '0']
+- [eventhub_source_0, '0', qtgui_waterfall_sink_x_0, '0']
+- [eventhubs_zc_detector_0, detections, blocks_message_debug_0_0, print]
+- [eventhubs_zc_detector_0, detections, eventhub_detect_sink_0, in]
+- [fft_filter_xxx_0, '0', eventhubs_zc_detector_0, '0']
+- [freq_xlating_fft_filter_ccc_0, '0', fft_filter_xxx_0, '0']
+
+metadata:
+  file_format: 1

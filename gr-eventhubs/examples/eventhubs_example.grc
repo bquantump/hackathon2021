@@ -83,7 +83,7 @@ blocks:
     bus_structure: null
     coordinate: [1392, 384.0]
     rotation: 0
-    state: true
+    state: disabled
 - name: blocks_probe_rate_0
   id: blocks_probe_rate
   parameters:
@@ -102,7 +102,7 @@ blocks:
     bus_structure: null
     coordinate: [1144, 572.0]
     rotation: 0
-    state: true
+    state: disabled
 - name: blocks_throttle_0
   id: blocks_throttle
   parameters:
@@ -121,7 +121,7 @@ blocks:
     bus_structure: null
     coordinate: [304, 340.0]
     rotation: 0
-    state: bypassed
+    state: enabled
 - name: blocks_vector_source_x_0
   id: blocks_vector_source_x
   parameters:
@@ -140,6 +140,26 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [56, 324.0]
+    rotation: 0
+    state: disabled
+- name: blocks_vector_source_x_0_0
+  id: blocks_vector_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    repeat: 'True'
+    tags: '[]'
+    type: complex
+    vector: dspcore.generate_tx_samples(3,25)
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [80, 148.0]
     rotation: 0
     state: true
 - name: eventhub_sink_0
@@ -199,7 +219,7 @@ blocks:
     bus_structure: null
     coordinate: [1016, 716.0]
     rotation: 0
-    state: true
+    state: disabled
 - name: import_0
   id: import
   parameters:
@@ -211,6 +231,19 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [832, 116.0]
+    rotation: 0
+    state: true
+- name: import_0_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import dspcore
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [432, -108.0]
     rotation: 0
     state: true
 - name: import_1
@@ -322,7 +355,7 @@ blocks:
     bus_structure: null
     coordinate: [1352, 244.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: qtgui_time_sink_x_0_0
   id: qtgui_time_sink_x
   parameters:
@@ -516,7 +549,7 @@ blocks:
     bus_structure: null
     coordinate: [1312, 684.0]
     rotation: 0
-    state: true
+    state: disabled
 - name: qtgui_waterfall_sink_x_0
   id: qtgui_waterfall_sink_x
   parameters:
@@ -584,6 +617,7 @@ connections:
 - [blocks_throttle_0, '0', eventhub_sink_0, '0']
 - [blocks_throttle_0, '0', qtgui_time_sink_x_0_0, '0']
 - [blocks_vector_source_x_0, '0', blocks_throttle_0, '0']
+- [blocks_vector_source_x_0_0, '0', blocks_throttle_0, '0']
 - [eventhub_source_0, '0', blocks_probe_rate_0, '0']
 - [eventhub_source_0, '0', fir_filter_xxx_0, '0']
 - [eventhub_source_0, '0', qtgui_time_sink_x_0, '0']
