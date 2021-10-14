@@ -10,12 +10,13 @@
 import numpy as np
 from gnuradio import gr
 import dspcore
+import pmt
 
 class ofdm_demod(gr.sync_block):
     """
     docstring for block ofdm_demod
     """
-    def __init__(self,threshold,show_zcs):
+    def __init__(self,threshold):
         gr.basic_block.__init__(self,
             name="ofdm_demod",
             in_sig=[np.complex64],
