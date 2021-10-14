@@ -116,6 +116,7 @@ def detect_zc(samples, root,threshold):
     cor = np.abs(signal.correlate(samples,zc_sig))
     
     max_idx = np.argmax(cor)
+    
     if cor[max_idx] > threshold:
         print("peak detected at idx {} for zc {}, score {}".format(max_idx,root,cor[max_idx]))
         #plt.plot(cor)
