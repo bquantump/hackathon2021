@@ -26,6 +26,7 @@ import dspcore
 import eventhubs
 import numpy as np
 import os
+import sys
 
 def run(config):
     consumer_group, zc, channel = config
@@ -127,6 +128,13 @@ def main(top_block_cls=testgrc, options=None, consumer_group="$Default", zc=0, c
 
 
 if __name__ == '__main__':
-    with Pool(processes=4) as pool:
-        inputs = [('$Default', 0, 0), ('$Default', 1, 1),('test1', 2, 2)]
+    print(sys.argv[1])
+    comp_name = str(sys.argv[1])
+    zcs = dspcore.ZC_ROOTS
+    zc_idx = 0 if comp_name.endswith('0') else (1 if comp_name.endswith['1'] else 2)
+    inputs = [('$Default', zcs[zc_idx], c) for c in range(4)]
+    inputs += [('group1', zcs[zc_idx], c) for c in range(4, 8)]
+    inputs += [('group2', zcs[zc_idx], c) for c in range(8, 12)]
+    inputs += [('group3', zcs[zc_idx], c) for c in range(12, 16)]
+    with Pool(processes=16) as pool:
         pool.map(run, inputs)
