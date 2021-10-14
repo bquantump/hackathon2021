@@ -118,8 +118,10 @@ def detect_zc(samples, root,threshold):
     max_idx = np.argmax(cor)
     if cor[max_idx] > threshold:
         print("peak detected at idx {} for zc {}, score {}".format(max_idx,root,cor[max_idx]))
-        plt.plot(cor)
-        plt.show()
+        #plt.plot(cor)
+        #plt.show()
+        return max_idx
+    return None
 
 if __name__ == '__main__':
     fsamps = generate_tx_samples(0)

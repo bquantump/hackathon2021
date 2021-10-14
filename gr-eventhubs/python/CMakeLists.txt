@@ -28,7 +28,7 @@ GR_PYTHON_INSTALL(
     eventhub_detect_source.py
     models.py
     zc_detector.py
-    DESTINATION ${GR_PYTHON_DIR}/eventhubs
+    ofdm_demod.py DESTINATION ${GR_PYTHON_DIR}/eventhubs
 )
 
 ########################################################################
