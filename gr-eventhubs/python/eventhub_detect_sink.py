@@ -38,8 +38,8 @@ class eventhub_detect_sink(gr.sync_block):
             conn_str=self.eventhub_connection_str,
             eventhub_name=self.eventhub_name)
 
-        self.message_port_register_in(pmt.intern('pdu'))
-        self.set_msg_handler(pmt.intern('pdu'), self.handle_msg)
+        self.message_port_register_in(pmt.intern('in'))
+        self.set_msg_handler(pmt.intern('in'), self.handle_msg)
 
     def handle_msg(self, msg):
         pmsg = pmt.to_python(msg)

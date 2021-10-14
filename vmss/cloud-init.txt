@@ -1,7 +1,0 @@
-#cloud-config
-package_upgrade: true
-runcmd:
-- cd /home/azureuser
-- git clone https://github.com/bquantump/gr-scripts-utils.git
-- cd gr-scripts-utils/scripts
-- python3 setup-ub20.py

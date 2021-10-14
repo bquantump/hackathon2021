@@ -39,7 +39,7 @@ class eventhub_detect_source(gr.sync_block):
             consumer_group=self.consumer_group,
             eventhub_name=self.eventhub_name)
 
-        self.message_port_register_out(pmt.intern('detect_msg'))
+        self.message_port_register_out(pmt.intern('out'))
 
         self.rxthread = threading.Thread(target=self.receive)
         self.rxthread.start()
@@ -56,7 +56,7 @@ class eventhub_detect_source(gr.sync_block):
             a = pmt.make_dict()
             a = pmt.dict_add(a, pmt.string_to_symbol("zc_root"), pmt.from_long(deserialized_data['zc_root']))
             a = pmt.dict_add(a, pmt.string_to_symbol("chan_idx"), pmt.from_long(deserialized_data['channel_idx']))
-            self.message_port_pub(pmt.intern("detect_msg"), a)
+            self.message_port_pub(pmt.intern("out"), a)
 
 
     def work(self, input_items, output_items):
