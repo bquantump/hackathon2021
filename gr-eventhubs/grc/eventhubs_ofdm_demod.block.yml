@@ -1,10 +1,10 @@
 id: eventhubs_ofdm_demod
 label: ofdm_demod
-category: '[eventhubs]'
+category: '[Event Hubs]'
 
 templates:
   imports: import eventhubs
-  make: eventhubs.ofdm_demod()
+  make: eventhubs.ofdm_demod(${threshold})
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
@@ -15,16 +15,20 @@ parameters:
 - id: threshold
   label: threshold
   dtype: float
-  value: 0.35
+  default: 0.35
 
 inputs:
 - label: input
   domain: stream
   dtype: complex
   vlen: 1
+- label: detections
+  domain: message
 
 
 outputs:
+- label: freq
+  domain: message
 - label: output
   domain: stream
   dtype: complex
