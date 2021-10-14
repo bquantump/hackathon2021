@@ -57,7 +57,6 @@ class testgrc(gr.top_block):
         self.fft_filter_xxx_0.declare_sample_delay(0)
         self.eventhubs_zc_detector_0 = eventhubs.zc_detector(ZC_ROOT,chan_num,0.35)
         self.eventhub_source_0 = eventhubs.eventhub_source(os.environ['EVENTHUB_CONNECTION_STRING'], os.environ['EVENTHUB_HOSTNAME'], os.environ['SCHEMA_REGISTRY_GROUP'], os.environ['EVENTHUB_CONSUMER_TOPIC_NAME'], consumer_group, "@latest")
-        self.eventhub_source_0.set_processor_affinity([1])
         self.blocks_message_debug_0 = blocks.message_debug(True)
 
 
@@ -131,7 +130,7 @@ if __name__ == '__main__':
     print(sys.argv[1])
     comp_name = str(sys.argv[1])
     zcs = dspcore.ZC_ROOTS
-    zc_idx = 0 if comp_name.endswith('0') else (1 if comp_name.endswith['1'] else 2)
+    zc_idx = 0 if comp_name.endswith('0') else (1 if comp_name.endswith('1') else 2)
     inputs = [('$Default', zcs[zc_idx], c) for c in range(4)]
     inputs += [('group1', zcs[zc_idx], c) for c in range(4, 8)]
     inputs += [('group2', zcs[zc_idx], c) for c in range(8, 12)]
