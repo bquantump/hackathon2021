@@ -163,7 +163,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [-40, 292.0]
+    coordinate: [48, 188.0]
     rotation: 0
     state: true
 - name: eventhubs_zc_detector_0

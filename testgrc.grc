@@ -108,7 +108,24 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1272, 488.0]
+    coordinate: [1248, 632.0]
+    rotation: 0
+    state: true
+- name: eventhub_detect_sink_0
+  id: eventhub_detect_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    connection_str: os.environ["EVENTHUB_CONNECTION_STRING"]
+    endpoint: os.environ['EVENTHUB_HOSTNAME']
+    eventhub_name: os.environ['EVENTHUB_DETECT_CONSUMER_TOPIC_NAME']
+    schema_group: os.environ['SCHEMA_REGISTRY_GROUP']
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1208, 324.0]
     rotation: 0
     state: true
 - name: eventhub_source_0
@@ -234,6 +251,7 @@ blocks:
 connections:
 - [eventhub_source_0, '0', freq_xlating_fft_filter_ccc_0, '0']
 - [eventhubs_zc_detector_0, detections, blocks_message_debug_0, print]
+- [eventhubs_zc_detector_0, detections, eventhub_detect_sink_0, in]
 - [fft_filter_xxx_0, '0', eventhubs_zc_detector_0, '0']
 - [freq_xlating_fft_filter_ccc_0, '0', fft_filter_xxx_0, '0']
 

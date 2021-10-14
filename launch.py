@@ -57,14 +57,15 @@ class testgrc(gr.top_block):
         self.fft_filter_xxx_0.declare_sample_delay(0)
         self.eventhubs_zc_detector_0 = eventhubs.zc_detector(ZC_ROOT,chan_num,0.35)
         self.eventhub_source_0 = eventhubs.eventhub_source(os.environ['EVENTHUB_CONNECTION_STRING'], os.environ['EVENTHUB_HOSTNAME'], os.environ['SCHEMA_REGISTRY_GROUP'], os.environ['EVENTHUB_CONSUMER_TOPIC_NAME'], consumer_group, "@latest")
+        self.eventhub_detect_sink_0 = eventhubs.eventhub_detect_sink(os.environ["EVENTHUB_CONNECTION_STRING"], os.environ['EVENTHUB_HOSTNAME'], os.environ['SCHEMA_REGISTRY_GROUP'], os.environ['EVENTHUB_DETECT_CONSUMER_TOPIC_NAME'])
         self.blocks_message_debug_0 = blocks.message_debug(True)
-
 
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.eventhubs_zc_detector_0, 'detections'), (self.blocks_message_debug_0, 'print'))
+        self.msg_connect((self.eventhubs_zc_detector_0, 'detections'), (self.eventhub_detect_sink_0, 'in'))
         self.connect((self.eventhub_source_0, 0), (self.freq_xlating_fft_filter_ccc_0, 0))
         self.connect((self.fft_filter_xxx_0, 0), (self.eventhubs_zc_detector_0, 0))
         self.connect((self.freq_xlating_fft_filter_ccc_0, 0), (self.fft_filter_xxx_0, 0))
