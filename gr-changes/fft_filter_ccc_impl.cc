@@ -41,6 +41,7 @@ fft_filter_ccc_impl::fft_filter_ccc_impl(int decimation,
     d_new_taps = taps;
     d_nsamples = d_filter.set_taps(taps);
     set_output_multiple(d_nsamples);
+    message_port_register_in(pmt::mp("taps"));
     this->set_msg_handler(pmt::mp("taps"),
                           [this](pmt::pmt_t msg) { this->handle_set_taps(msg); });
 }
@@ -52,14 +53,33 @@ void fft_filter_ccc_impl::set_taps(const std::vector<gr_complex>& taps)
 }
 
 void fft_filter_ccc_impl::handle_set_taps(pmt::pmt_t msg)
-{
+{   
+    printf("in handle taps\n");
+    printf("pmt::is_dict(msg) %d\n", pmt::is_dict(msg));
+    printf("pmt::dict_has_key(msg, pmt::intern(\"taps\")) %d]\n", pmt::dict_has_key(msg, pmt::intern("taps")));
     if (pmt::is_dict(msg) && pmt::dict_has_key(msg, pmt::intern("taps"))) {
-        
+        printf("got past first check\n");
         pmt::pmt_t x = pmt::dict_ref(msg, pmt::intern("taps"), pmt::PMT_NIL);
-        if (pmt::is_c64vector(x)) {
+        printf("is null %d\n", pmt::is_null(x));
+        if (pmt::is_f32vector(x)) {
   
+            //auto taps = pmt::c32vector_elements(x);
+            printf("is f32\n");
+            //set_taps(taps);
+        }
+        else if (pmt::is_f64vector(x))
+        {
+            printf("is f64\n");
+        }
+        else if (pmt::is_c32vector(x))
+        {
+                        printf("is c32\n");
             auto taps = pmt::c32vector_elements(x);
             set_taps(taps);
+        }
+        else if (pmt::is_c64vector(x))
+        {
+            printf("is c64\n");
         }
     
     }
