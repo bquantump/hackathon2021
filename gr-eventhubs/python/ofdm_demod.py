@@ -29,13 +29,16 @@ class ofdm_demod(gr.sync_block):
         self.min_samps = 5 * (dspcore.FFT_SIZE + dspcore.CP_LEN)
         self.threshold = threshold
         self.set_output_multiple(self.min_samps)
+        self.got_dect = False
         
     def handle_det(self,msg):
         pmsg = pmt.to_python(msg)
         if self.zc_root != pmsg['zc_root']:
             self.zc_root = pmsg['zc_root']
             b = pmt.make_dict()
-            b = pmt.dict_add(b, pmt.string_to_symbol("taps"), pmt.to_pmt(list(np.conjugate(dspcore.gen_ZC(self.zc_root))[::-1])))
+            m = list(np.conjugate(dspcore.gen_ZC(self.zc_root))[::-1])
+            z = pmt.init_c32vector(len(m), m)
+            b = pmt.dict_add(b, pmt.intern("taps"), z)
             self.message_port_pub(pmt.intern("freq"), b)
         if self.chan_idx != pmsg['chan_idx']:
             self.chan_idx = pmsg['chan_idx']
@@ -59,24 +62,35 @@ class ofdm_demod(gr.sync_block):
 
         if max_cor < self.threshold:
             print("NO DECT\n")
+
             self.consume(0, len(cor))
             self.consume(1, len(cor))
-            return 0
+            if self.got_dect:
+                return 0
+            n_out = min(len(data), len(out))
+            out[0:n_out] = data[0:n_out]
+            return n_out
         else:
-            if max_idx < (dspcore.FFT_SIZE + dspcore.CP_LEN):
+            self.got_dect = True
+            if max_idx < (dspcore.FFT_SIZE + dspcore.CP_LEN) + 1:
                 print("ZC TO CLOSE TO LEFT EDGE \n")
                 # ZC too close to left edge
                 self.consume(0, len(cor))
                 self.consume(1, len(cor))
-                return 0
-            elif (len(cor) - max_idx) < 3*(dspcore.FFT_SIZE + dspcore.CP_LEN):
+                n_out = min(len(data), len(out))
+                out[0:n_out] = data[0:n_out]
+                return n_out
+            elif (len(data) - max_idx) < 3*(dspcore.FFT_SIZE + dspcore.CP_LEN):
                 print("ZC TO CLOSE TO RIGHT EDGE\n")
                 print(max_idx)
                 print(len(cor))
                 # ZC too close to right edge
-                self.consume(0, int(0.5*(dspcore.FFT_SIZE + dspcore.CP_LEN)))
-                self.consume(1, int(0.5*(dspcore.FFT_SIZE + dspcore.CP_LEN)))
-                return 0
+                throw_away = int(0.5*(dspcore.FFT_SIZE + dspcore.CP_LEN))
+                #n_out = min(len(data), throw_away)
+                out[0:throw_away] = data[0:throw_away]
+                self.consume(0, throw_away)
+                self.consume(1, throw_away)
+                return throw_away
             else:
                 print("SHOULD BE GOOD\n")
                 zc_idx = max_idx

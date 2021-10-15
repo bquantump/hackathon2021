@@ -711,6 +711,67 @@ blocks:
     coordinate: [2616, 876.0]
     rotation: 0
     state: true
+- name: qtgui_waterfall_sink_x_0
+  id: qtgui_waterfall_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    axislabels: 'True'
+    bw: samp_rate
+    color1: '0'
+    color10: '0'
+    color2: '0'
+    color3: '0'
+    color4: '0'
+    color5: '0'
+    color6: '0'
+    color7: '0'
+    color8: '0'
+    color9: '0'
+    comment: ''
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: ''
+    int_max: '10'
+    int_min: '-140'
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    nconnections: '1'
+    showports: 'False'
+    type: complex
+    update_time: '0.10'
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [784, 420.0]
+    rotation: 0
+    state: true
 - name: virtual_sink_0
   id: virtual_sink
   parameters:
@@ -746,6 +807,7 @@ connections:
 - [blocks_delay_0, '0', eventhubs_ofdm_demod_0, '1']
 - [blocks_throttle_0, '0', eventhub_sink_0, '0']
 - [blocks_throttle_0, '0', freq_xlating_fir_filter_xxx_0, '0']
+- [blocks_throttle_0, '0', qtgui_waterfall_sink_x_0, '0']
 - [blocks_vector_source_x_0, '0', blocks_add_xx_0, '0']
 - [eventhub_detect_source_0, out, eventhubs_ofdm_demod_0, detections]
 - [eventhubs_ofdm_demod_0, '0', qtgui_const_sink_x_0, '0']
