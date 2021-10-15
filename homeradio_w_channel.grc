@@ -1,0 +1,834 @@
+options:
+  parameters:
+    author: hacker2021
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: homeradio
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: homeradio
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: ZC_ROOT
+  id: variable
+  parameters:
+    comment: ''
+    value: '25'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1712, 124.0]
+    rotation: 0
+    state: true
+- name: chan_num
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1552, 132.0]
+    rotation: 0
+    state: true
+- name: freq_offset
+  id: variable
+  parameters:
+    comment: ''
+    value: (dspcore.FFT_SAMP_RATE) * (-7.5 + chan_num)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1424, 132.0]
+    rotation: 0
+    state: true
+- name: lpf_taps
+  id: variable
+  parameters:
+    comment: ''
+    value: '[-7.975280459504575e-05, -4.9262958782492206e-05, -1.6447560483356938e-05,
+      1.775114651536569e-05, 5.2323939598863944e-05, 8.620815060567111e-05, 0.0001183042477350682,
+      0.00014749598631169647, 0.00017267520888708532, 0.00019277109822724015, 0.00020678412693087012,
+      0.00021382409613579512, 0.00021315101184882224, 0.00020421782392077148, 0.00018671243742574006,
+      0.00016059722111094743, 0.0001261434081243351, 8.395734039368108e-05, 3.499631566228345e-05,
+      -1.9428558516665362e-05, -7.766461203573272e-05, -0.00013774647959508002, -0.0001974424085346982,
+      -0.0002543180307839066, -0.00030581667670048773, -0.00034935466828756034, -0.00038242785376496613,
+      -0.00040272719343192875, -0.00040825686301104724, -0.000397451629396528, -0.0003692862228490412,
+      -0.00032337172888219357, -0.0002600329462438822, -0.00018036100664176047, -8.623716712463647e-05,
+      1.967684511328116e-05, 0.00013398408191278577, 0.0002526341995690018, 0.0003710418241098523,
+      0.00048423861153423786, 0.0005870554596185684, 0.0006743291160091758, 0.0007411251426674426,
+      0.000782970164436847, 0.0007960811490193009, 0.000777584791649133, 0.0007257125107571483,
+      0.000639963720459491, 0.0005212261457927525, 0.00037184517714194953, 0.00019563482783269137,
+      -2.1731548258685507e-06, -0.0002150458312826231, -0.0004353296826593578, -0.0006544924690388143,
+      -0.0008634199621155858, -0.0010527590056881309, -0.0012132939882576466, -0.0013363448670133948,
+      -0.0014141680439934134, -0.001440347288735211, -0.0014101533452048898, -0.0013208562741056085,
+      -0.0011719767935574055, -0.0009654563618823886, -0.0007057401817291975, -0.0003997587482444942,
+      -5.680566391674802e-05, 0.000311691255774349, 0.0006925018969923258, 0.0010710213100537658,
+      0.0014317813329398632, 0.0017590289935469627, 0.0020373535808175802, 0.002252337522804737,
+      0.00239120633341372, 0.0024434514343738556, 0.002401400124654174, 0.0022606998682022095,
+      0.002020700369030237, 0.0016847088700160384, 0.001260098535567522, 0.0007582596153952181,
+      0.00019438723393250257, -0.00041289726505056024, -0.001042083720676601, -0.0016694576479494572,
+      -0.002269912511110306, -0.0028178647626191378, -0.0032882390078157187, -0.0036574925761669874,
+      -0.003904638346284628, -0.0040122224017977715, -0.003967225085943937, -0.0037618353962898254,
+      -0.003394069615751505, -0.0028681978583335876, -0.002194953616708517, -0.0013915060553699732,
+      -0.00048118302947841585, 0.0005070575280115008, 0.0015393999638035893, 0.0025781728327274323,
+      0.003583052661269903, 0.004512437153607607, 0.005324941594153643, 0.005980979185551405,
+      0.006444355472922325, 0.006683837156742811, 0.00667462358251214, 0.006399671547114849,
+      0.005850816145539284, 0.005029634106904268, 0.003948013298213482, 0.0026283967308700085,
+      0.0011036653304472566, -0.0005833368049934506, -0.002380644902586937, -0.004228364676237106,
+      -0.006060187239199877, -0.007805192843079567, -0.009389887563884258, -0.010740415193140507,
+      -0.011784891597926617, -0.012455755844712257, -0.012692097574472427, -0.012441863305866718,
+      -0.011663862504065037, -0.01032952219247818, -0.008424297906458378, -0.005948714446276426,
+      -0.002918964484706521, 0.0006329383468255401, 0.00465948972851038, 0.009098498150706291,
+      0.0138743557035923, 0.01889972947537899, 0.024077655747532845, 0.02930395118892193,
+      0.03446989879012108, 0.03946511074900627, 0.04418047145009041, 0.048511143773794174,
+      0.052359405905008316, 0.0556374192237854, 0.05826963856816292, 0.06019497662782669,
+      0.06136851757764816, 0.06176277622580528, 0.06136851757764816, 0.06019497662782669,
+      0.05826963856816292, 0.0556374192237854, 0.052359405905008316, 0.048511143773794174,
+      0.04418047145009041, 0.03946511074900627, 0.03446989879012108, 0.02930395118892193,
+      0.024077655747532845, 0.01889972947537899, 0.0138743557035923, 0.009098498150706291,
+      0.00465948972851038, 0.0006329383468255401, -0.002918964484706521, -0.005948714446276426,
+      -0.008424297906458378, -0.01032952219247818, -0.011663862504065037, -0.012441863305866718,
+      -0.012692097574472427, -0.012455755844712257, -0.011784891597926617, -0.010740415193140507,
+      -0.009389887563884258, -0.007805192843079567, -0.006060187239199877, -0.004228364676237106,
+      -0.002380644902586937, -0.0005833368049934506, 0.0011036653304472566, 0.0026283967308700085,
+      0.003948013298213482, 0.005029634106904268, 0.005850816145539284, 0.006399671547114849,
+      0.00667462358251214, 0.006683837156742811, 0.006444355472922325, 0.005980979185551405,
+      0.005324941594153643, 0.004512437153607607, 0.003583052661269903, 0.0025781728327274323,
+      0.0015393999638035893, 0.0005070575280115008, -0.00048118302947841585, -0.0013915060553699732,
+      -0.002194953616708517, -0.0028681978583335876, -0.003394069615751505, -0.0037618353962898254,
+      -0.003967225085943937, -0.0040122224017977715, -0.003904638346284628, -0.0036574925761669874,
+      -0.0032882390078157187, -0.0028178647626191378, -0.002269912511110306, -0.0016694576479494572,
+      -0.001042083720676601, -0.00041289726505056024, 0.00019438723393250257, 0.0007582596153952181,
+      0.001260098535567522, 0.0016847088700160384, 0.002020700369030237, 0.0022606998682022095,
+      0.002401400124654174, 0.0024434514343738556, 0.00239120633341372, 0.002252337522804737,
+      0.0020373535808175802, 0.0017590289935469627, 0.0014317813329398632, 0.0010710213100537658,
+      0.0006925018969923258, 0.000311691255774349, -5.680566391674802e-05, -0.0003997587482444942,
+      -0.0007057401817291975, -0.0009654563618823886, -0.0011719767935574055, -0.0013208562741056085,
+      -0.0014101533452048898, -0.001440347288735211, -0.0014141680439934134, -0.0013363448670133948,
+      -0.0012132939882576466, -0.0010527590056881309, -0.0008634199621155858, -0.0006544924690388143,
+      -0.0004353296826593578, -0.0002150458312826231, -2.1731548258685507e-06, 0.00019563482783269137,
+      0.00037184517714194953, 0.0005212261457927525, 0.000639963720459491, 0.0007257125107571483,
+      0.000777584791649133, 0.0007960811490193009, 0.000782970164436847, 0.0007411251426674426,
+      0.0006743291160091758, 0.0005870554596185684, 0.00048423861153423786, 0.0003710418241098523,
+      0.0002526341995690018, 0.00013398408191278577, 1.967684511328116e-05, -8.623716712463647e-05,
+      -0.00018036100664176047, -0.0002600329462438822, -0.00032337172888219357, -0.0003692862228490412,
+      -0.000397451629396528, -0.00040825686301104724, -0.00040272719343192875, -0.00038242785376496613,
+      -0.00034935466828756034, -0.00030581667670048773, -0.0002543180307839066, -0.0001974424085346982,
+      -0.00013774647959508002, -7.766461203573272e-05, -1.9428558516665362e-05, 3.499631566228345e-05,
+      8.395734039368108e-05, 0.0001261434081243351, 0.00016059722111094743, 0.00018671243742574006,
+      0.00020421782392077148, 0.00021315101184882224, 0.00021382409613579512, 0.00020678412693087012,
+      0.00019277109822724015, 0.00017267520888708532, 0.00014749598631169647, 0.0001183042477350682,
+      8.620815060567111e-05, 5.2323939598863944e-05, 1.775114651536569e-05, -1.6447560483356938e-05,
+      -4.9262958782492206e-05, -7.975280459504575e-05]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2144, 304.0]
+    rotation: 0
+    state: true
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '30.72e6 '
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [944, 132.0]
+    rotation: 0
+    state: enabled
+- name: throt
+  id: variable
+  parameters:
+    comment: ''
+    value: int(1e6)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [864, 296.0]
+    rotation: 0
+    state: true
+- name: analog_noise_source_x_0
+  id: analog_noise_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '.01'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_type: analog.GR_GAUSSIAN
+    seed: '0'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [56, 860.0]
+    rotation: 0
+    state: true
+- name: analog_noise_source_x_0_0
+  id: analog_noise_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '.05'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_type: analog.GR_GAUSSIAN
+    seed: '0'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [48, 1012.0]
+    rotation: 0
+    state: true
+- name: analog_sig_source_x_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '.01'
+    comment: ''
+    freq: 20e6
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [56, 492.0]
+    rotation: 0
+    state: true
+- name: analog_sig_source_x_0_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '.01'
+    comment: ''
+    freq: -12e6
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    type: complex
+    waveform: analog.GR_SAW_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [64, 636.0]
+    rotation: 0
+    state: true
+- name: blocks_add_xx_0
+  id: blocks_add_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '5'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [360, 576.0]
+    rotation: 0
+    state: true
+- name: blocks_complex_to_mag_0_0
+  id: blocks_complex_to_mag
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1856, 740.0]
+    rotation: 0
+    state: enabled
+- name: blocks_delay_0
+  id: blocks_delay
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    delay: len(np.conjugate(dspcore.gen_ZC(25))[::-1])
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1856, 896.0]
+    rotation: 0
+    state: true
+- name: blocks_keep_m_in_n_0
+  id: blocks_keep_m_in_n
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    m: int(throt /10)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    n: int(throt)
+    offset: '0'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [664, 372.0]
+    rotation: 0
+    state: true
+- name: blocks_throttle_0
+  id: blocks_throttle
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: throt
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [704, 620.0]
+    rotation: 0
+    state: true
+- name: blocks_vector_source_x_0
+  id: blocks_vector_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    repeat: 'True'
+    tags: '[]'
+    type: complex
+    vector: dspcore.generate_tx_samples(2,25)
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [56, 336.0]
+    rotation: 0
+    state: true
+- name: eventhub_detect_source_0
+  id: eventhub_detect_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    connection_str: os.environ["EVENTHUB_CONNECTION_STRING"]
+    consumer_group: '"$Default"'
+    endpoint: os.environ['EVENTHUB_HOSTNAME']
+    eventhub_name: os.environ['EVENTHUB_DETECT_CONSUMER_TOPIC_NAME']
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    schema_group: os.environ['SCHEMA_REGISTRY_GROUP']
+    starting_position: '"@latest"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1904, 540.0]
+    rotation: 0
+    state: enabled
+- name: eventhub_sink_0
+  id: eventhub_sink
+  parameters:
+    affinity: '2'
+    alias: ''
+    block_len: int(8192*2)
+    comment: ''
+    connection_str: os.environ['EVENTHUB_CONNECTION_STRING']
+    endpoint: os.environ['EVENTHUB_HOSTNAME']
+    eventhub_name: os.environ['EVENTHUB_CONSUMER_TOPIC_NAME']
+    schema_group: os.environ['SCHEMA_REGISTRY_GROUP']
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [992, 348.0]
+    rotation: 0
+    state: true
+- name: eventhubs_ofdm_demod_0
+  id: eventhubs_ofdm_demod
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    threshold: '0.38'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2312, 784.0]
+    rotation: 0
+    state: true
+- name: fft_filter_xxx_0_0
+  id: fft_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nthreads: '1'
+    samp_delay: '0'
+    taps: np.conjugate(dspcore.gen_ZC(25))[::-1]
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1536, 708.0]
+    rotation: 0
+    state: true
+- name: freq_xlating_fir_filter_xxx_0
+  id: freq_xlating_fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    center_freq: '0'
+    comment: ''
+    decim: '16'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    taps: lpf_taps
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1064, 684.0]
+    rotation: 0
+    state: true
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import dspcore
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1088, 132.0]
+    rotation: 0
+    state: true
+- name: import_1
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import numpy as np
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1200, 124.0]
+    rotation: 0
+    state: true
+- name: import_2
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import os
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1312, 132.0]
+    rotation: 0
+    state: true
+- name: low_pass_filter_0
+  id: low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: 1.0e6
+    decim: '1'
+    gain: '1'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    type: fir_filter_ccf
+    width: 900e3
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 948.0]
+    rotation: 0
+    state: true
+- name: qtgui_const_sink_x_0
+  id: qtgui_const_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    axislabels: 'True'
+    color1: '"blue"'
+    color10: '"red"'
+    color2: '"red"'
+    color3: '"red"'
+    color4: '"red"'
+    color5: '"red"'
+    color6: '"red"'
+    color7: '"red"'
+    color8: '"red"'
+    color9: '"red"'
+    comment: ''
+    grid: 'False'
+    gui_hint: ''
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    marker1: '0'
+    marker10: '0'
+    marker2: '0'
+    marker3: '0'
+    marker4: '0'
+    marker5: '0'
+    marker6: '0'
+    marker7: '0'
+    marker8: '0'
+    marker9: '0'
+    name: '""'
+    nconnections: '1'
+    size: '128'
+    style1: '0'
+    style10: '0'
+    style2: '0'
+    style3: '0'
+    style4: '0'
+    style5: '0'
+    style6: '0'
+    style7: '0'
+    style8: '0'
+    style9: '0'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_slope: qtgui.TRIG_SLOPE_POS
+    tr_tag: '""'
+    type: complex
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    xmax: '2'
+    xmin: '-2'
+    ymax: '2'
+    ymin: '-2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2600, 784.0]
+    rotation: 0
+    state: true
+- name: qtgui_time_sink_x_0_1
+  id: qtgui_time_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    axislabels: 'True'
+    color1: blue
+    color10: dark blue
+    color2: red
+    color3: green
+    color4: black
+    color5: cyan
+    color6: magenta
+    color7: yellow
+    color8: dark red
+    color9: dark green
+    comment: ''
+    ctrlpanel: 'False'
+    entags: 'True'
+    grid: 'False'
+    gui_hint: ''
+    label1: Signal 1
+    label10: Signal 10
+    label2: Signal 2
+    label3: Signal 3
+    label4: Signal 4
+    label5: Signal 5
+    label6: Signal 6
+    label7: Signal 7
+    label8: Signal 8
+    label9: Signal 9
+    legend: 'True'
+    marker1: '-1'
+    marker10: '-1'
+    marker2: '-1'
+    marker3: '-1'
+    marker4: '-1'
+    marker5: '-1'
+    marker6: '-1'
+    marker7: '-1'
+    marker8: '-1'
+    marker9: '-1'
+    name: '"cor"'
+    nconnections: '1'
+    size: '1024'
+    srate: samp_rate/16
+    stemplot: 'False'
+    style1: '1'
+    style10: '1'
+    style2: '1'
+    style3: '1'
+    style4: '1'
+    style5: '1'
+    style6: '1'
+    style7: '1'
+    style8: '1'
+    style9: '1'
+    tr_chan: '0'
+    tr_delay: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_slope: qtgui.TRIG_SLOPE_POS
+    tr_tag: '""'
+    type: float
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    ylabel: Amplitude
+    ymax: '1'
+    ymin: '-1'
+    yunit: '""'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2304, 924.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_waterfall_sink_x_0
+  id: qtgui_waterfall_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    axislabels: 'True'
+    bw: samp_rate
+    color1: '0'
+    color10: '0'
+    color2: '0'
+    color3: '0'
+    color4: '0'
+    color5: '0'
+    color6: '0'
+    color7: '0'
+    color8: '0'
+    color9: '0'
+    comment: ''
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: ''
+    int_max: '10'
+    int_min: '-140'
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    nconnections: '1'
+    showports: 'False'
+    type: complex
+    update_time: '0.05'
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1088, 564.0]
+    rotation: 0
+    state: true
+- name: virtual_sink_0
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: freqs
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2656, 684.0]
+    rotation: 0
+    state: true
+- name: virtual_source_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: freqs
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [800, 1100.0]
+    rotation: 0
+    state: true
+
+connections:
+- [analog_noise_source_x_0, '0', blocks_add_xx_0, '3']
+- [analog_noise_source_x_0_0, '0', low_pass_filter_0, '0']
+- [analog_sig_source_x_0, '0', blocks_add_xx_0, '1']
+- [analog_sig_source_x_0_0, '0', blocks_add_xx_0, '2']
+- [blocks_add_xx_0, '0', blocks_keep_m_in_n_0, '0']
+- [blocks_add_xx_0, '0', blocks_throttle_0, '0']
+- [blocks_complex_to_mag_0_0, '0', eventhubs_ofdm_demod_0, '0']
+- [blocks_complex_to_mag_0_0, '0', qtgui_time_sink_x_0_1, '0']
+- [blocks_delay_0, '0', eventhubs_ofdm_demod_0, '1']
+- [blocks_keep_m_in_n_0, '0', eventhub_sink_0, '0']
+- [blocks_throttle_0, '0', freq_xlating_fir_filter_xxx_0, '0']
+- [blocks_throttle_0, '0', qtgui_waterfall_sink_x_0, '0']
+- [blocks_vector_source_x_0, '0', blocks_add_xx_0, '0']
+- [eventhub_detect_source_0, out, eventhubs_ofdm_demod_0, detections]
+- [eventhubs_ofdm_demod_0, '0', qtgui_const_sink_x_0, '0']
+- [eventhubs_ofdm_demod_0, freq, virtual_sink_0, '0']
+- [fft_filter_xxx_0_0, '0', blocks_complex_to_mag_0_0, '0']
+- [freq_xlating_fir_filter_xxx_0, '0', blocks_delay_0, '0']
+- [freq_xlating_fir_filter_xxx_0, '0', fft_filter_xxx_0_0, '0']
+- [low_pass_filter_0, '0', blocks_add_xx_0, '4']
+- [virtual_source_0, '0', fft_filter_xxx_0_0, taps]
+- [virtual_source_0, '0', freq_xlating_fir_filter_xxx_0, freq]
+
+metadata:
+  file_format: 1
