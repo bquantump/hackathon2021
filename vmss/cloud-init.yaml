@@ -1,0 +1,25 @@
+#cloud-config
+package_upgrade: true
+runcmd:
+  - export AZURE_USER_NAME=<your-azure-user-name>
+  - export AZURE_CLIENT_ID=afed31ab-c18f-4675-9102-55f18ec9cd8c
+  - export AZURE_CLIENT_SECRET=<your-azure-client-secret>
+  - export AZURE_TENANT_ID=72f988bf-86f1-41af-91ab-2d7cd011db47
+  - export SUBSCRIPTION_ID=5095d5c0-1bb2-4607-9c0c-bc98a3fbbb2a
+  - export EVENTHUB_CONNECTION_STRING=<your-eventhub-connection-string>
+  - export EVENTHUB_HOSTNAME=hackathon2021.servicebus.windows.net
+  - export EVENTHUB_CONSUMER_TOPIC_NAME=rfinfo
+  - export EVENTHUB_DETECT_CONSUMER_TOPIC_NAME=detect
+  - export SCHEMA_REGISTRY_GROUP=rfframe
+  - export PYTHONPATH=/usr/local/lib/python3/dist-packages:/usr/local/lib/python3/site-packages:$PYTHONPATH
+  - export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+  - cd /home/azureuser
+  - git clone https://github.com/bquantump/gr-scripts-utils.git
+  - git clone https://github.com/bquantump/hackathon2021.git
+  - cd gr-scripts-utils/scripts
+  - python3 setup-ub20.py
+  - cd /home/azureuser
+  - cd hackathon2021/vmss
+  - echo "yes" | sudo ./create_env.sh
+  - cd ../
+  - python3 deploy_app.py
