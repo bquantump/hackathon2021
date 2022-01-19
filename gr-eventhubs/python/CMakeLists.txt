@@ -22,11 +22,6 @@ add_subdirectory(bindings)
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
-    eventhub_sink.py
-    eventhub_source.py
-    eventhub_detect_sink.py
-    eventhub_detect_source.py
-    models.py
     zc_detector.py
     ofdm_demod.py DESTINATION ${GR_PYTHON_DIR}/eventhubs
 )
